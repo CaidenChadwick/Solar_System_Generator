@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import argon2 from 'argon2';
-import { addUser, getUserByEmail, allUserData } from '../models/UserModel';
+import { addUser, getUserByEmail, allUserData, getUserById, incrementProfileViews, updateEmailAddress } from '../models/UserModel';
 import { parseDatabaseError } from '../utils/db-utils';
 
 async function registerUser(req: Request, res: Response): Promise<void> {
@@ -43,4 +43,32 @@ async function getAllUsers(req: Request, res: Response): Promise<void> {
     res.json(users);
 }
 
-export { registerUser, logIn, getAllUsers };
+async function getUserProfileData(req: Request, res: Response): Promise<void> {
+    const { userId } = req.params as UserIdParam;
+    // Get the user account
+    let user = await getUserById(userId);
+    if (!user) {
+        res.sendStatus(404); // 404 Not Found
+        return;
+    }
+    // Now update their profile views
+    user = await incrementProfileViews(user);
+    res.json(user); // Send back the user's data
+}
+
+async function updateUserEmail(req: Request, res: Response): Promise<void> {
+    const { userId } = req.params as UserIdParam;
+    const { email } = req.body as NewEmailBody
+
+    let user = await getUserById(userId);
+    if (!user) {
+        res.sendStatus(404);
+        return;
+    }
+
+    await updateEmailAddress(userId, email);
+    res.sendStatus(200);
+}
+
+
+export { registerUser, logIn, getAllUsers, getUserProfileData, updateUserEmail };

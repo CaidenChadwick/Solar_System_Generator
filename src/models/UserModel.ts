@@ -64,4 +64,37 @@ async function getUserByViews(minViews: number): Promise<User[]> {
     return users;
 }
 
-export { addUser, allUserData, getAllUnverifiedUsers, getUserByEmail, getUserById, getViralUsers, getUserByViews };
+async function resetAllUnverifiedProfileViews(): Promise<void> {
+    await userRepository
+        .createQueryBuilder()
+        .update(User)
+        .set({ profileViews: 0 })
+        .where('unverified <> true')
+        .execute();
+}
+
+async function incrementProfileViews(userData: User): Promise<User> {
+    const updatedUser = userData;
+    updatedUser.profileViews += 1;
+
+    await userRepository
+        .createQueryBuilder()
+        .update(User)
+        .set({ profileViews: updatedUser.profileViews })
+        .where({ userId: updatedUser.userId })
+        .execute();
+
+    return updatedUser;
+}
+
+async function updateEmailAddress(userId: string, newEmail: string): Promise<void> {
+
+    await userRepository
+        .createQueryBuilder()
+        .update(User)
+        .set({ email: newEmail })
+        .where({ userId })
+        .execute();
+}
+
+export { addUser, allUserData, getAllUnverifiedUsers, getUserByEmail, getUserById, getViralUsers, getUserByViews, incrementProfileViews, updateEmailAddress, resetAllUnverifiedProfileViews };
