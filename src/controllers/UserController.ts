@@ -50,9 +50,6 @@ async function getAllUsers(req: Request, res: Response): Promise<void> {
   res.json(users);
 }
 
-<<<<<<< HEAD
-export { registerUser, logIn, getAllUsers };
-=======
 async function getUserProfileData(req: Request, res: Response): Promise<void> {
   const { userId } = req.params as UserIdParam;
   // Get the user account
@@ -87,4 +84,3 @@ async function updateUserEmail(req: Request, res: Response): Promise<void> {
 }
 
 export { registerUser, logIn, getAllUsers, getUserProfileData, updateUserEmail };
->>>>>>> a850d188bca514b4c0f2d2291e216756fecd7f4c

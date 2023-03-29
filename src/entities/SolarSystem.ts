@@ -5,7 +5,7 @@ import { Systems } from './Systems';
 @Entity()
 export class SolarSystem {
   @PrimaryGeneratedColumn('uuid')
-  systemId: string;
+  solarsystemId: string;
 
   @Column({ unique: true })
   starType: string;

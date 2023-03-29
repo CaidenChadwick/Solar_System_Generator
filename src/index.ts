@@ -37,6 +37,10 @@ app.post('/api/login', logIn);
 app.get('/api/users/:userId', getUserProfileData);
 app.post('/api/users/:userId/email', updateUserEmail);
 
+app.get('/api/solarsystem/:solarSystemId', getSolarSystem);
+app.post('/api/solarsystem/:solarSystemId/planets', updatePlanet);
+app.post('/api/planet/:planetID/moons', updateMoons);
+
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);
 });
