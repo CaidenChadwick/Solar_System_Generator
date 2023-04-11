@@ -1,12 +1,12 @@
 type NewUserRequest = {
-    email: string;
-    password: string;
+  email: string;
+  password: string;
 };
 
 type UserIdParam = {
-    userId: string
+  userId: string;
 };
 
 type NewEmailBody = {
-    email: string;
-}
+  email: string;
+};

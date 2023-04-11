@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import argon2 from 'argon2';
+import { parseISO, isBefore, formatDistanceToNow } from 'date-fns';
 import {
   addUser,
   getUserByEmail,
@@ -27,6 +28,20 @@ async function registerUser(req: Request, res: Response): Promise<void> {
 }
 
 async function logIn(req: Request, res: Response): Promise<void> {
+  console.log(req.session);
+
+  const now = new Date();
+
+  const logInTimeout = parseISO(req.session.logInTimeout);
+
+  if (logInTimeout && isBefore(now, logInTimeout)) {
+    const timeRemaining = formatDistanceToNow(logInTimeout);
+    const message = `You have ${timeRemaining} remaining`;
+
+    res.status(429).send(message); // 429 Too Many Requests
+    return;
+  }
+
   const { email, password } = req.body as NewUserRequest;
   const user = await getUserByEmail(email);
 
@@ -37,9 +52,21 @@ async function logIn(req: Request, res: Response): Promise<void> {
 
   const { passwordHash } = user;
   if (!(await argon2.verify(passwordHash, password))) {
-    res.sendStatus(404); // 404 Not Found - user with email/pass doesn't exist
+    if (!req.session.logInAttempts) {
+      req.session.logInAttempts = 1; // First attempt
+    } else {
+      req.session.logInAttempts += 1; // increment their attempts
+    }
+    res.sendStatus(403); // 403 Forbidden - invalid password
     return;
   }
+
+  await req.session.clearSession();
+  req.session.authenticatedUser = {
+    userId: user.userId,
+    email: user.email,
+  };
+  req.session.isLoggedIn = true;
 
   res.sendStatus(200);
 }
@@ -65,17 +92,25 @@ async function getUserProfileData(req: Request, res: Response): Promise<void> {
 
 async function updateUserEmail(req: Request, res: Response): Promise<void> {
   const { userId } = req.params as UserIdParam;
-  const { email } = req.body as NewEmailBody;
+  const { isLoggedIn, authenticatedUser } = req.session;
 
-  let user = await getUserById(userId);
+  if (!isLoggedIn || authenticatedUser.userId !== userId) {
+    res.sendStatus(403); // 403 Forbidden
+    return;
+  }
+
+  const { email } = req.body as { email: string };
+
+  // Get the user account
+  const user = await getUserById(userId);
   if (!user) {
-    res.sendStatus(404);
+    res.sendStatus(404); // 404 Not Found
     return;
   }
 
   try {
-    user = await updateEmailAddress(userId, email, user);
-    res.json(user);
+    const updatedUser = await updateEmailAddress(userId, email, user);
+    res.json(updatedUser);
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err);
