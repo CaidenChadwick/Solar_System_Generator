@@ -53,8 +53,8 @@ app.post('/api/systems', createSolarSystem);
 // app.post('/api/planet/:planetID/moons', updateMoons);
 
 // app.get('api/groups/:groupId', getGroup);
-app.post('/api/groups/:groupId/:systemId', addGroupSystem);
-app.post('/api/groups/:groupId/:userId', addMember);
+app.post('/api/groups/:groupId/systems/:systemId', addGroupSystem);
+app.post('/api/groups/:groupId/members/', addMember);
 
 app.delete('/api/groups/:groupId/:systemId', removeGroupSystem);
 app.delete('/api/groups/:groupId/:userId', removeMember);
