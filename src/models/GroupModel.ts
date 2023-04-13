@@ -19,13 +19,23 @@ async function addSystemToGroup(newSystem: SolarSystem, group: Group): Promise<G
   return updatedGroup;
 }
 
+async function deleteSystemFromGroup(system: SolarSystem, group: Group): Promise<Group> {
+  group.systems.splice(group.systems.indexOf(system), 1);
+  const updatedGroup = await groupRepository.save(group);
+  return updatedGroup;
+}
+
 async function addUserToGroup(newUser: User, group: Group): Promise<Group> {
   group.members.push(newUser);
   const updatedGroup = await groupRepository.save(group);
   return updatedGroup;
 }
 
-// TODO: async function removeUserFromGroup(): Promise<Group> { }
+async function deleteUserFromGroup(user: User, group: Group): Promise<Group> {
+  group.members.splice(group.members.indexOf(user), 1);
+  const updatedGroup = await groupRepository.save(group);
+  return updatedGroup;
+}
 
 async function getGroupById(groupId: string): Promise<Group | null> {
   return groupRepository
@@ -45,6 +55,15 @@ async function isUserOfGroup(groupId: string, userId: string): Promise<boolean> 
     .getExists();
 }
 
+async function isOwner(groupId: string, userId: string): Promise<boolean> {
+  return groupRepository
+    .createQueryBuilder('group')
+    .leftJoinAndSelect('group.owner', 'owner')
+    .where('groupId = :groupId', { groupId })
+    .andWhere('owner.userId = :userId', { userId })
+    .getExists();
+}
+
 async function isSystemOfGroup(groupId: string, systemId: string): Promise<boolean> {
   return groupRepository
     .createQueryBuilder('group')
@@ -54,4 +73,14 @@ async function isSystemOfGroup(groupId: string, systemId: string): Promise<boole
     .getExists();
 }
 
-export { addGroup, getGroupById, addUserToGroup, addSystemToGroup, isUserOfGroup, isSystemOfGroup };
+export {
+  addGroup,
+  getGroupById,
+  addSystemToGroup,
+  deleteSystemFromGroup,
+  addUserToGroup,
+  deleteUserFromGroup,
+  isUserOfGroup,
+  isOwner,
+  isSystemOfGroup,
+};

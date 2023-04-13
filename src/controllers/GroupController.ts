@@ -5,8 +5,11 @@ import {
   addGroup,
   getGroupById,
   addSystemToGroup,
+  deleteSystemFromGroup,
   addUserToGroup,
+  deleteUserFromGroup,
   isUserOfGroup,
+  isOwner,
   isSystemOfGroup,
 } from '../models/GroupModel';
 import { getUserById } from '../models/UserModel';
@@ -39,12 +42,12 @@ async function addMember(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  const { userId, groupId } = req.body as GroupUserRequest;
-  const user = await getUserById(userId);
+  const { targetUserId, groupId } = req.body as GroupUserRequest;
+  const targetUser = await getUserById(targetUserId);
   const group = await getGroupById(groupId);
 
   // check that user exists and is signed in
-  if (!user) {
+  if (!targetUser) {
     res.sendStatus(404);
     return;
   }
@@ -56,7 +59,7 @@ async function addMember(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  if (isUserOfGroup(groupId, userId)) {
+  if (isUserOfGroup(groupId, targetUserId)) {
     res.sendStatus(409);
     return;
   }
@@ -64,8 +67,50 @@ async function addMember(req: Request, res: Response): Promise<void> {
   // check join condition(password / invite)
 
   try {
-    const addedUser = await addUserToGroup(user, group);
-    console.log(addedUser);
+    const updatedGroup = await addUserToGroup(targetUser, group);
+    console.log(updatedGroup);
+    res.sendStatus(200);
+  } catch (err) {
+    console.error(err);
+    const databaseErrorMessage = parseDatabaseError(err as Error);
+    res.status(500).json(databaseErrorMessage);
+  }
+}
+
+async function removeMember(req: Request, res: Response): Promise<void> {
+  if (!req.session.isLoggedIn) {
+    res.sendStatus(401);
+    return;
+  }
+
+  const { targetUserId, groupId } = req.params as GroupUserRequest;
+
+  const { userId } = req.session.authenticatedUser;
+  if (!isOwner(groupId, userId)) {
+    res.sendStatus(403);
+    return;
+  }
+
+  const targetMember = await getUserById(targetUserId);
+  const group = await getGroupById(groupId);
+
+  if (!group) {
+    res.sendStatus(404);
+    return;
+  }
+  if (!targetMember) {
+    res.sendStatus(404);
+    return;
+  }
+
+  if (!isUserOfGroup(groupId, targetUserId)) {
+    res.sendStatus(404);
+    return;
+  }
+
+  try {
+    const updatedGroup = await deleteUserFromGroup(targetMember, group);
+    console.log(updatedGroup);
     res.sendStatus(200);
   } catch (err) {
     console.error(err);
@@ -83,10 +128,10 @@ async function addGroupSystem(req: Request, res: Response): Promise<void> {
 
   // check group exists
   const { groupId } = req.params as GroupSystemRequest;
-  const { systemId } = req.body as GroupSystemRequest;
+  const { targetSystemId } = req.body as GroupSystemRequest;
   const group = await getGroupById(groupId);
-  const system = await getSystemById(systemId);
-  if (!group || !system) {
+  const targetSystem = await getSystemById(targetSystemId);
+  if (!group || !targetSystem) {
     res.sendStatus(404);
     return;
   }
@@ -102,13 +147,13 @@ async function addGroupSystem(req: Request, res: Response): Promise<void> {
   // Check system owned by user
 
   // check system is not in group
-  if (isSystemOfGroup(groupId, systemId)) {
+  if (isSystemOfGroup(groupId, targetSystemId)) {
     res.sendStatus(409);
     return;
   }
 
   try {
-    const addedSystem = await addSystemToGroup(system, group);
+    const addedSystem = await addSystemToGroup(targetSystem, group);
     console.log(addedSystem);
     res.sendStatus(200);
   } catch (err) {
@@ -118,4 +163,46 @@ async function addGroupSystem(req: Request, res: Response): Promise<void> {
   }
 }
 
-export { createGroup, addMember, addGroupSystem };
+async function removeGroupSystem(req: Request, res: Response): Promise<void> {
+  if (!req.session.isLoggedIn) {
+    res.sendStatus(401);
+    return;
+  }
+
+  const { targetSystemId, groupId } = req.params as GroupSystemRequest;
+
+  const { userId } = req.session.authenticatedUser;
+  if (!isOwner(groupId, userId)) {
+    res.sendStatus(403);
+    return;
+  }
+
+  const targetSystem = await getSystemById(targetSystemId);
+  const group = await getGroupById(groupId);
+
+  if (!group) {
+    res.sendStatus(404);
+    return;
+  }
+  if (!targetSystem) {
+    res.sendStatus(404);
+    return;
+  }
+
+  if (!isSystemOfGroup(groupId, targetSystemId)) {
+    res.sendStatus(404);
+    return;
+  }
+
+  try {
+    const updatedGroup = await deleteSystemFromGroup(targetSystem, group);
+    console.log(updatedGroup);
+    res.sendStatus(200);
+  } catch (err) {
+    console.error(err);
+    const databaseErrorMessage = parseDatabaseError(err as Error);
+    res.status(500).json(databaseErrorMessage);
+  }
+}
+
+export { createGroup, addMember, removeMember, addGroupSystem, removeGroupSystem };

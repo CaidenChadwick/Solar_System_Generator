@@ -8,10 +8,10 @@ type GroupIdParmas = {
 
 type GroupSystemRequest = {
   groupId: string;
-  systemId: string;
+  targetSystemId: string;
 };
 
 type GroupUserRequest = {
   groupId: string;
-  userId: string;
+  targetUserId: string;
 };

@@ -14,6 +14,13 @@ import {
 
 import { createSolarSystem } from './controllers/system/SolarSystemController';
 
+import {
+  addMember,
+  removeMember,
+  addGroupSystem,
+  removeGroupSystem,
+} from './controllers/GroupController';
+
 const app: Express = express();
 
 const { PORT, COOKIE_SECRET } = process.env;
@@ -44,6 +51,13 @@ app.post('/api/systems', createSolarSystem);
 // app.get('/api/solarsystem/:solarSystemId', getSolarSystem);
 // app.post('/api/solarsystem/:solarSystemId/planets', updatePlanet);
 // app.post('/api/planet/:planetID/moons', updateMoons);
+
+// app.get('api/groups/:groupId', getGroup);
+app.post('/api/groups/:groupId/:systemId', addGroupSystem);
+app.post('/api/groups/:groupId/:userId', addMember);
+
+app.delete('/api/groups/:groupId/:systemId', removeGroupSystem);
+app.delete('/api/groups/:groupId/:userId', removeMember);
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);
