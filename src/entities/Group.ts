@@ -9,7 +9,7 @@ import {
   JoinTable,
 } from 'typeorm';
 import { User } from './User';
-import { SolarSystem } from './system/SolarSystem';
+import { SolarSystem } from './SolarSystem';
 
 @Entity()
 export class Group {

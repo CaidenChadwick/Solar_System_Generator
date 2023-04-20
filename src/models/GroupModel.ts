@@ -1,7 +1,7 @@
 import { AppDataSource } from '../dataSource';
 import { Group } from '../entities/Group';
 import { User } from '../entities/User';
-import { SolarSystem } from '../entities/system/SolarSystem';
+import { SolarSystem } from '../entities/SolarSystem';
 
 const groupRepository = AppDataSource.getRepository(Group);
 

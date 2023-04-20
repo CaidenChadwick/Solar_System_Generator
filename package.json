@@ -7,6 +7,9 @@
     "compile": "npm run clean && npx tsc --watch",
     "clean": "rimraf ./dist/",
     "start-dev": "node --experimental-loader=extensionless --es-module-specifier-resolution=node --no-warnings --watch ./dist/index.js",
+    "start-dev-browserSync": "node -e \"setTimeout(() => process.exit(0), 2000)\"; node --no-warnings --watch bsync.mjs",
+    "start-dev-ui": "concurrently -c cyan,green -n server,browserSync \"npm:start-dev\" \"npm:start-dev-browserSync\"",
+    "start-once": "node --experimental-loader=extensionless --es-module-specifier-resolution=node --no-warnings ./dist/index.js",
     "lint": "eslint . --ext .ts"
   },
   "devDependencies": {
@@ -43,8 +46,9 @@
     "extensionless": "^1.1.0",
     "glob": "^8.1.0",
     "ip": "^1.1.8",
+    "joi": "^17.9.1",
     "reflect-metadata": "^0.1.13",
     "sqlite3": "^5.1.4",
-    "typeorm": "0.3.12"
+    "typeorm": "^0.3.15"
   }
 }

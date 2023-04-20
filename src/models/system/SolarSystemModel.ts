@@ -1,5 +1,5 @@
 import { AppDataSource } from '../../dataSource';
-import { SolarSystem } from '../../entities/system/SolarSystem';
+import { SolarSystem } from '../../entities/SolarSystem';
 import { User } from '../../entities/User';
 
 const solarSystemRepository = await AppDataSource.getRepository(SolarSystem);

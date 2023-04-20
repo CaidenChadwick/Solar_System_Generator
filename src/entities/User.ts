@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToMany, Relation } from 'typeorm';
 import { Group } from './Group';
-import { SolarSystem } from './system/SolarSystem';
+import { SolarSystem } from './SolarSystem';
 
 @Entity()
 export class User {
