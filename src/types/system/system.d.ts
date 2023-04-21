@@ -1,0 +1,3 @@
+type NewSystemRequest = {
+  name: string;
+};

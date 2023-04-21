@@ -1,11 +1,15 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, Relation } from 'typeorm';
+import { Column, Entity, OneToMany, ManyToOne, PrimaryGeneratedColumn, Relation } from 'typeorm';
 import { Planet } from './Planet';
-import { Systems } from './Systems';
+import { Group } from './Group';
+import { User } from './User';
 
 @Entity()
 export class SolarSystem {
   @PrimaryGeneratedColumn('uuid')
-  solarsystemId: string;
+  systemId: string;
+
+  @Column()
+  name: string;
 
   @Column({ unique: true })
   starType: string;
@@ -13,6 +17,9 @@ export class SolarSystem {
   @OneToMany(() => Planet, (planet) => planet.system)
   planets: Relation<Planet>[];
 
-  @ManyToOne(() => Systems, (system) => system.solarSystems)
-  system: Relation<Systems>[];
+  @ManyToOne(() => User, (user) => user.systems)
+  user: Relation<User>;
+
+  @ManyToOne(() => Group, (group) => group.systems, { cascade: ['insert', 'update'] })
+  group: Relation<Group>;
 }

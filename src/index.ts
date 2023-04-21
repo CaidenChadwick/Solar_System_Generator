@@ -1,5 +1,5 @@
-import './config'; // Load environment variables
-import 'express-async-errors'; // Enable default error handling for async errors
+import './config';
+import 'express-async-errors';
 import express, { Express } from 'express';
 import session from 'express-session';
 import connectSqlite3 from 'connect-sqlite3';
@@ -12,8 +12,16 @@ import {
   updateUserEmail,
 } from './controllers/UserController';
 
+import { createSolarSystem } from './controllers/system/SolarSystemController';
+
+import {
+  addMember,
+  removeMember,
+  addGroupSystem,
+  removeGroupSystem,
+} from './controllers/GroupController';
+
 const app: Express = express();
-app.use(express.json());
 
 const { PORT, COOKIE_SECRET } = process.env;
 
@@ -30,6 +38,8 @@ app.use(
   })
 );
 
+app.use(express.json());
+
 app.get('/api/users', getAllUsers);
 app.post('/api/users', registerUser);
 app.post('/api/login', logIn);
@@ -37,9 +47,17 @@ app.post('/api/login', logIn);
 app.get('/api/users/:userId', getUserProfileData);
 app.post('/api/users/:userId/email', updateUserEmail);
 
-app.get('/api/solarsystem/:solarSystemId', getSolarSystem);
-app.post('/api/solarsystem/:solarSystemId/planets', updatePlanet);
-app.post('/api/planet/:planetID/moons', updateMoons);
+app.post('/api/systems', createSolarSystem);
+// app.get('/api/solarsystem/:solarSystemId', getSolarSystem);
+// app.post('/api/solarsystem/:solarSystemId/planets', updatePlanet);
+// app.post('/api/planet/:planetID/moons', updateMoons);
+
+// app.get('api/groups/:groupId', getGroup);
+app.post('/api/groups/:groupId/systems/:systemId', addGroupSystem);
+app.post('/api/groups/:groupId/members/', addMember);
+
+app.delete('/api/groups/:groupId/:systemId', removeGroupSystem);
+app.delete('/api/groups/:groupId/:userId', removeMember);
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);
