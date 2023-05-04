@@ -38,6 +38,8 @@ app.use(
   })
 );
 
+app.use(express.static('public', { extensions: ['html'] }));
+
 app.use(express.json());
 
 app.get('/api/users', getAllUsers);
