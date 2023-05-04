@@ -17,10 +17,22 @@
         <div class="form">
           <form action="/api/users" method="post">
             <label for="email">Email</label>
-            <input email="email" id="email" type="text" required />
+            <input
+              id="email"
+              name="email"
+              placeholder="Email"
+              class="text"
+              type="text"
+              required />
 
             <label for="password">Password</label>
-            <input name="password" id="password" type="password" required />
+            <input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Password"
+              class="password"
+              required />
 
             <button class="btn">Create Account</button>
           </form>

@@ -17,11 +17,25 @@
 
         <div class="form">
           <form action="/api/login" method="post">
-            <label for="username">Username</label>
-            <input name="username" id="username"  type="text" required />
+            <label for="email">Email</label>
+            <input
+              name="email"
+              id="email"
+              placeholder="Email"
+              class="text"
+              type="text"
+              required
+            />
 
             <label for="password">Password</label>
-            <input name="password" id="password" type="password" required />
+            <input
+              name="password"
+              id="password"
+              type="password"
+              placeholder="Password"
+              class="password"
+              required
+            />
 
             <button class="btn">Login</button>
           </form>
