@@ -38,6 +38,8 @@ app.use(
   })
 );
 
+app.use(express.static('public', { extensions: ['html'] }));
+
 app.use(express.json());
 
 app.get('/api/users', getAllUsers);
@@ -54,7 +56,7 @@ app.get('/api/solarsystem/:solarSystemId', getSystem);
 
 // app.get('api/groups/:groupId', getGroup);
 app.post('/api/groups/:groupId/systems/:systemId', addGroupSystem);
-app.post('/api/groups/:groupId/members/', addMember);
+app.post('/api/groups/:groupId/users/:userId', addMember);
 
 app.delete('/api/groups/:groupId/:systemId', removeGroupSystem);
 app.delete('/api/groups/:groupId/:userId', removeMember);

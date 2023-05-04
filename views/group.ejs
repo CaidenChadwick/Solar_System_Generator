@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= group.name %> | Solar System Generator</title>
+</head>
+
+<body>
+    <h1><%= group.name %></h1>
+
+    <h2>Owner</h2>
+    <div><%= group.owner %></div>
+
+    <h3>Members</h3>
+    <ul>
+        <% for( const user of group.members ) { %>
+        <li>
+            <p><%= user.email %>/5</p>
+        </li>
+        <% } %>
+    </ul>
+
+    <h4>Systems</h4>
+    <ul>
+        <% for( const system of group.systems ) { %>
+        <a href="/systems/<%= system.systemId %>">
+        </a>
+        <% } %>
+    </ul>
+
+    <div>
+      <a href="/groups/<%= group.groupId %>/users/<%= user.userId %>">Add a Member</a>
+      <a href="/groups/<%= group.groupId %>/<%= user.userId %>">Remove a Member</a>
+    </div>
+</body>
+
+</html>
