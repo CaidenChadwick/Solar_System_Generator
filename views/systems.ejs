@@ -17,11 +17,11 @@
       <h2>There are <%= systems.length %> solar systems.</h2>
       <% } %>
 
-        <a href="/systems">Create a Solar System</a>
+        <a href="systems">Create a Solar System</a>
 
         <ul>
           <% for( const system of systems ) { %>
-            <a href="/systems/<%= system.systemId %>">link
+            <a href="/api/systems/<%= system.systemId %>">link
             </a>
             <% } %>
         </ul>
