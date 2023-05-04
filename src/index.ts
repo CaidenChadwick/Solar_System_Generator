@@ -23,6 +23,8 @@ import {
   removeMember,
   addGroupSystem,
   removeGroupSystem,
+  getUserGroups,
+  createGroup,
 } from './controllers/GroupController';
 
 const app: Express = express();
@@ -57,6 +59,8 @@ app.post('/api/users/email', updateUserEmail);
 app.post('/api/systems', createSolarSystem);
 app.get('/api/systems/:solarSystemId', getSystem);
 app.get('/systems', getUserSystems);
+app.get('/groups', getUserGroups);
+app.post('/group/:groupId', createGroup);
 // app.post('/api/solarsystem/:solarSystemId/planets', updatePlanet);
 
 // app.get('api/groups/:groupId', getGroup);
