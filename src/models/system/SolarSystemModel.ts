@@ -8,12 +8,14 @@ const solarSystemRepository = await AppDataSource.getRepository(SolarSystem);
 async function addSolarSystem(
   name: string,
   creator: User,
-  planets: Planet[]
+  planets: Planet[],
+  starType: string
 ): Promise<SolarSystem> {
   let newSystem = new SolarSystem();
   newSystem.name = name;
   newSystem.user = creator;
   newSystem.planets = planets;
+  newSystem.starType = starType;
   newSystem = await solarSystemRepository.save(newSystem);
   return newSystem;
 }

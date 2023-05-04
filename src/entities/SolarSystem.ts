@@ -11,7 +11,7 @@ export class SolarSystem {
   @Column()
   name: string;
 
-  @Column({ unique: true })
+  @Column()
   starType: string;
 
   @OneToMany(() => Planet, (planet) => planet.system)

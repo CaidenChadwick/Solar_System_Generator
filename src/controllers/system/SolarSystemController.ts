@@ -3,10 +3,9 @@ import { parseDatabaseError } from '../../utils/db-utils';
 
 import { addSolarSystem, getSystemById } from '../../models/system/SolarSystemModel';
 import { getUserById } from '../../models/UserModel';
-import { NewSystemRequest, SystemParams } from '../../types/system';
 
 async function createSolarSystem(req: Request, res: Response): Promise<void> {
-  const { name, planets } = req.body as NewSystemRequest;
+  const { name, planets, starType } = req.body as NewSystemRequest;
 
   if (!req.session.isLoggedIn) {
     res.redirect('/login');
@@ -17,9 +16,10 @@ async function createSolarSystem(req: Request, res: Response): Promise<void> {
   const user = await getUserById(userId);
 
   try {
-    const newSystem = await addSolarSystem(name, user, planets);
+    const newSystem = await addSolarSystem(name, user, planets, starType);
     console.log(newSystem);
-    res.redirect('/systems');
+    const { systems } = user;
+    res.render('systems', { systems });
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err as Error);
