@@ -19,11 +19,12 @@ async function registerUser(req: Request, res: Response): Promise<void> {
   try {
     const newUser = await addUser(email, passwordHash);
     console.log(newUser);
-    res.redirect('/register');
+    res.redirect('/login');
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err as Error);
     res.status(500).json(databaseErrorMessage);
+    // res.redirect('/register');
   }
 }
 
