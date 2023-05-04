@@ -11,45 +11,148 @@
 
 </body>
 <form action="/api/systems" method="post">
-  <label for="starType">Pick your star type: </label>
-  <select name="starType" id="starType">
-    <option value="redGiant">Red Giant</option>
-    <option value="whiteDwarf">White Dwarf</option>
-    <option value="redDwarf">Red Dwarf</option>
-  </select>
+  <div>
+    <label for="name">Solar System Name: </label>
+    <input type="text" id="name" name="name" required>
+  </div>
 
-  <label for="planetType">Pick your planet type: </label>
-  <select name="planetType" id="planetType">
-    <option value="rocky">Rocky</option>
-    <option value="gasGiant">Gas Giant</option>
-    <option value="iceGiant">Ice Giant</option>
-  </select>
+  <div>
+    <label for="starType">Pick your star type: </label>
+    <select name="starType" id="starType">
+      <option value="redGiant">Red Giant</option>
+      <option value="whiteDwarf">White Dwarf</option>
+      <option value="redDwarf">Red Dwarf</option>
+    </select>
+  </div>
 
-  <label for="inhabitability">Is your planet inhabitable? </label>
-  <select name="inhabitability" id="inhabitability">
-    <option value="true">Yes</option>
-    <option value="false">No</option>
-  </select>
+  <h1>Planet 1</h1>
+  <div>
+    <select name="planetType" id="planetType">
+      <option value="rocky">Rocky</option>
+      <option value="gasGiant">Gas Giant</option>
+      <option value="iceGiant">Ice Giant</option>
+    </select>
+  </div>
 
-  <label for="rings">Does your planet have rings? </label>
-  <select name="rings" id="rings">
-    <option value="true">Yes</option>
-    <option value="false">No</option>
-  </select>
+  <div>
+    <label for="inhabitability">Is your planet inhabitable? </label>
+    <select name="inhabitability" id="inhabitability">
+      <option value="true">Yes</option>
+      <option value="false">No</option>
+    </select>
+  </div>
 
-  <label for="size">How big is your planet? </label>
-  <select name="size" id="size">
-    <option value="small">Small</option>
-    <option value="medium">Medium</option>
-    <option value="large">Large</option>
-  </select>
+  <div>
+    <label for="rings">Does your planet have rings? </label>
+    <select name="rings" id="rings">
+      <option value="true">Yes</option>
+      <option value="false">No</option>
+    </select>
+  </div>
 
-  <label for="moons">How many moons does it have? </label>
-  <select name="moons" id="moons">
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-  </select>
+  <div>
+    <label for="size">How big is your planet? </label>
+    <select name="size" id="size">
+      <option value="small">Small</option>
+      <option value="medium">Medium</option>
+      <option value="large">Large</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="moons">How many moons does it have? </label>
+    <select name="moons" id="moons">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+    </select>
+  </div>
+
+  <h2>Planet 2</h2>
+  <div>
+    <select name="planetType" id="planetType">
+      <option value="rocky">Rocky</option>
+      <option value="gasGiant">Gas Giant</option>
+      <option value="iceGiant">Ice Giant</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="inhabitability">Is your planet inhabitable? </label>
+    <select name="inhabitability" id="inhabitability">
+      <option value="true">Yes</option>
+      <option value="false">No</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="rings">Does your planet have rings? </label>
+    <select name="rings" id="rings">
+      <option value="true">Yes</option>
+      <option value="false">No</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="size">How big is your planet? </label>
+    <select name="size" id="size">
+      <option value="small">Small</option>
+      <option value="medium">Medium</option>
+      <option value="large">Large</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="moons">How many moons does it have? </label>
+    <select name="moons" id="moons">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+    </select>
+  </div>
+
+  <h3>Planet 3</h3>
+  <div>
+    <select name="planetType" id="planetType">
+      <option value="rocky">Rocky</option>
+      <option value="gasGiant">Gas Giant</option>
+      <option value="iceGiant">Ice Giant</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="inhabitability">Is your planet inhabitable? </label>
+    <select name="inhabitability" id="inhabitability">
+      <option value="true">Yes</option>
+      <option value="false">No</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="rings">Does your planet have rings? </label>
+    <select name="rings" id="rings">
+      <option value="true">Yes</option>
+      <option value="false">No</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="size">How big is your planet? </label>
+    <select name="size" id="size">
+      <option value="small">Small</option>
+      <option value="medium">Medium</option>
+      <option value="large">Large</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="moons">How many moons does it have? </label>
+    <select name="moons" id="moons">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+    </select>
+  </div>
 
   <button class="btn">Create Solar System</button>
 
