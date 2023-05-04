@@ -3,9 +3,10 @@ import { User } from '../entities/User';
 
 const userRepository = AppDataSource.getRepository(User);
 
-async function addUser(email: string, passwordHash: string): Promise<User> {
+async function addUser(email: string, username: string, passwordHash: string): Promise<User> {
   let newUser = new User();
   newUser.email = email;
+  newUser.username = username;
   newUser.passwordHash = passwordHash;
   newUser = await userRepository.save(newUser);
   return newUser;
@@ -24,7 +25,7 @@ async function getAllUnverifiedUsers(): Promise<User[]> {
 
 async function getUserByEmail(email: string): Promise<User | null> {
   const user = await userRepository.findOne({
-    select: { email: true, userId: true },
+    select: { email: true, userId: true, passwordHash: true },
     where: { email },
   });
   return user;
@@ -37,6 +38,8 @@ async function getUserById(userId: string): Promise<User | null> {
       userId: true,
       verifiedEmail: true,
       profileViews: true,
+      groups: true,
+      systems: true,
     },
     where: { userId },
   });

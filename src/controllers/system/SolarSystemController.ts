@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { parseDatabaseError } from '../../utils/db-utils';
 
-import { addSolarSystem } from '../../models/system/SolarSystemModel';
+import { addSolarSystem, getSystemById } from '../../models/system/SolarSystemModel';
 import { getUserById } from '../../models/UserModel';
 
 async function createSolarSystem(req: Request, res: Response): Promise<void> {
@@ -26,4 +26,17 @@ async function createSolarSystem(req: Request, res: Response): Promise<void> {
   }
 }
 
-export { createSolarSystem };
+async function getSystem(req: Request, res: Response): Promise<void> {
+  const { systemId } = req.params as SystemParams;
+
+  const system = getSystemById(systemId);
+
+  if (!system) {
+    res.sendStatus(404);
+    return;
+  }
+
+  res.status(200).json(system);
+}
+
+export { createSolarSystem, getSystem };

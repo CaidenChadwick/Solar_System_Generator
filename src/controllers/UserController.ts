@@ -12,12 +12,12 @@ import {
 import { parseDatabaseError } from '../utils/db-utils';
 
 async function registerUser(req: Request, res: Response): Promise<void> {
-  const { email, password } = req.body as NewUserRequest;
+  const { email, username, password } = req.body as NewUserRequest;
 
   const passwordHash = await argon2.hash(password);
 
   try {
-    const newUser = await addUser(email, passwordHash);
+    const newUser = await addUser(email, username, passwordHash);
     console.log(newUser);
     res.redirect('/login');
   } catch (err) {
@@ -43,7 +43,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  const { email, password } = req.body as NewUserRequest;
+  const { email, password } = req.body as LoginRequest;
   const user = await getUserByEmail(email);
 
   if (!user) {
