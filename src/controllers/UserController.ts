@@ -19,7 +19,7 @@ async function registerUser(req: Request, res: Response): Promise<void> {
   try {
     const newUser = await addUser(email, passwordHash);
     console.log(newUser);
-    res.sendStatus(201);
+    res.redirect('/login');
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err as Error);
@@ -46,7 +46,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
   const user = await getUserByEmail(email);
 
   if (!user) {
-    res.sendStatus(404); // 404 Not Found - email doesn't exist
+    res.redirect('/login'); // 404 Not Found - email doesn't exist
     return;
   }
 
@@ -57,7 +57,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
     } else {
       req.session.logInAttempts += 1; // increment their attempts
     }
-    res.sendStatus(403); // 403 Forbidden - invalid password
+    res.redirect('/login'); // 403 Forbidden - invalid password
     return;
   }
 
@@ -68,7 +68,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
   };
   req.session.isLoggedIn = true;
 
-  res.sendStatus(200);
+  res.redirect('/profile');
 }
 
 async function getAllUsers(req: Request, res: Response): Promise<void> {
