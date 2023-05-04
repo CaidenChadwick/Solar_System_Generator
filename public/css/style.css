@@ -5,6 +5,9 @@
   --cell-border: #101d2c;
   --cell-text: #030b18;
   --cell-accent: #536eb2;
+  --color-border-lighter: #2d424d;
+  --color-text-lighter: #2d424d;
+  --color-text-primary: #14252e;
   --color-text-darker: #05110c;
 }
 
@@ -144,4 +147,37 @@ input::placeholder {
 
 label {
   visibility: hidden;
+}
+
+.linksTable {
+  margin: auto;
+  text-align: center;
+  border-spacing: 150px 0px;
+  padding: 4rem;
+}
+
+table,
+th,
+td {
+  border: 5px solid rgb(26, 27, 50);
+}
+
+.tableHeaders {
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+th:nth-child(even),
+td:nth-child(even) {
+  background-color: rgb(93, 105, 142);
+}
+
+th:nth-child(odd),
+td:nth-child(odd) {
+  background-color: rgb(142, 166, 237);
+}
+
+th,
+td {
+  padding: 0.5rem 1.25rem 0.5rem 1.25rem;
 }

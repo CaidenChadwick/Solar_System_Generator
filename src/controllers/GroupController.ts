@@ -18,7 +18,7 @@ import { getSystemById } from '../models/system/SolarSystemModel';
 async function createGroup(req: Request, res: Response): Promise<void> {
   // check that user is signed in
   if (!req.session.isLoggedIn) {
-    res.sendStatus(401);
+    res.redirect('/login');
     return;
   }
 
@@ -38,7 +38,7 @@ async function createGroup(req: Request, res: Response): Promise<void> {
 
 async function addMember(req: Request, res: Response): Promise<void> {
   if (!req.session.isLoggedIn) {
-    res.sendStatus(401);
+    res.redirect('/login');
     return;
   }
 
@@ -48,19 +48,19 @@ async function addMember(req: Request, res: Response): Promise<void> {
 
   // check that user exists and is signed in
   if (!targetUser) {
-    res.sendStatus(404);
+    res.render('group', { group });
     return;
   }
 
   // check that group exists
 
   if (!group) {
-    res.sendStatus(404);
+    res.render('profile');
     return;
   }
 
-  if (isUserOfGroup(groupId, targetUserId)) {
-    res.sendStatus(409);
+  if (!isUserOfGroup(groupId, targetUserId)) {
+    res.render('group', { group });
     return;
   }
 
@@ -69,7 +69,7 @@ async function addMember(req: Request, res: Response): Promise<void> {
   try {
     const updatedGroup = await addUserToGroup(targetUser, group);
     console.log(updatedGroup);
-    res.sendStatus(200);
+    res.render('group', { updatedGroup });
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err as Error);
@@ -79,7 +79,7 @@ async function addMember(req: Request, res: Response): Promise<void> {
 
 async function removeMember(req: Request, res: Response): Promise<void> {
   if (!req.session.isLoggedIn) {
-    res.sendStatus(401);
+    res.redirect('/login');
     return;
   }
 
@@ -95,23 +95,23 @@ async function removeMember(req: Request, res: Response): Promise<void> {
   const group = await getGroupById(groupId);
 
   if (!group) {
-    res.sendStatus(404);
+    res.render('profile');
     return;
   }
   if (!targetMember) {
-    res.sendStatus(404);
+    res.render('group', { group });
     return;
   }
 
   if (!isUserOfGroup(groupId, targetUserId)) {
-    res.sendStatus(404);
+    res.render('group', { group });
     return;
   }
 
   try {
     const updatedGroup = await deleteUserFromGroup(targetMember, group);
     console.log(updatedGroup);
-    res.sendStatus(200);
+    res.render('group', { updatedGroup });
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err as Error);
@@ -122,7 +122,7 @@ async function removeMember(req: Request, res: Response): Promise<void> {
 async function addGroupSystem(req: Request, res: Response): Promise<void> {
   // check login
   if (!req.session.isLoggedIn) {
-    res.sendStatus(401);
+    res.redirect('/login');
     return;
   }
 
@@ -132,7 +132,7 @@ async function addGroupSystem(req: Request, res: Response): Promise<void> {
   const group = await getGroupById(groupId);
   const targetSystem = await getSystemById(targetSystemId);
   if (!group || !targetSystem) {
-    res.sendStatus(404);
+    res.render('profile');
     return;
   }
 
@@ -140,15 +140,15 @@ async function addGroupSystem(req: Request, res: Response): Promise<void> {
   const { userId } = req.session.authenticatedUser;
 
   if (!isUserOfGroup(groupId, userId)) {
-    res.sendStatus(403);
+    res.render('profile');
     return;
   }
 
   // Check system owned by user
 
   // check system is not in group
-  if (isSystemOfGroup(groupId, targetSystemId)) {
-    res.sendStatus(409);
+  if (!isSystemOfGroup(groupId, targetSystemId)) {
+    res.render('group', { group });
     return;
   }
 
@@ -205,4 +205,18 @@ async function removeGroupSystem(req: Request, res: Response): Promise<void> {
   }
 }
 
-export { createGroup, addMember, removeMember, addGroupSystem, removeGroupSystem };
+async function getUserGroups(req: Request, res: Response): Promise<void> {
+  const { isLoggedIn } = req.session;
+
+  if (!isLoggedIn) {
+    res.redirect('/login');
+    return;
+  }
+
+  const { userId } = req.session.authenticatedUser;
+  const { groups } = await getUserById(userId);
+
+  res.render('groupList', { groups });
+}
+
+export { createGroup, addMember, removeMember, addGroupSystem, removeGroupSystem, getUserGroups };

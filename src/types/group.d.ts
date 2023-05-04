@@ -2,7 +2,7 @@ type NewGroupRequest = {
   name: string;
 };
 
-type GroupIdParmas = {
+type GroupIdParams = {
   groupId: string;
 };
 

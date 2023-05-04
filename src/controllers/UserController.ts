@@ -96,7 +96,7 @@ async function updateUserEmail(req: Request, res: Response): Promise<void> {
   const { isLoggedIn, authenticatedUser } = req.session;
 
   if (!isLoggedIn) {
-    res.sendStatus(403); // 403 Forbidden
+    res.redirect('/login'); // 403 Forbidden
     return;
   }
 

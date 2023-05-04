@@ -33,7 +33,7 @@ async function getSystem(req: Request, res: Response): Promise<void> {
   const system = await getSystemById(systemId);
 
   if (!system) {
-    res.sendStatus(404);
+    res.render('profile');
     return;
   }
 
