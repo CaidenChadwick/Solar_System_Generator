@@ -8,39 +8,28 @@
     <title>Login | Solar System Generator</title>
   </head>
   <body>
-    <div class="formCard">
-      <section class="form-container">
-        <div>
-          <h1 class="title gradient-text">Solar System Generator</h1>
-          <h2>Log In</h2>
-        </div>
+    <form action="/api/login" method="post">
+      <label for="username">Email</label>
+      <input
+        name="username"
+        id="username"
+        placeholder="Username"
+        class="text"
+        type="text"
+        required
+      />
 
-        <div class="form">
-          <form action="/api/login" method="post">
-            <label for="username">Email</label>
-            <input
-              name="username"
-              id="username"
-              placeholder="Username"
-              class="text"
-              type="text"
-              required
-            />
+      <label for="password">Password</label>
+      <input
+        name="password"
+        id="password"
+        type="password"
+        placeholder="Password"
+        class="password"
+        required
+      />
 
-            <label for="password">Password</label>
-            <input
-              name="password"
-              id="password"
-              type="password"
-              placeholder="Password"
-              class="password"
-              required
-            />
-
-            <button class="btn">Login</button>
-          </form>
-        </div>
-      </section>
-    </div>
+      <button class="btn">Login</button>
+    </form>
   </body>
 </html>
