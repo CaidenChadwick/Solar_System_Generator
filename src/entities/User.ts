@@ -25,6 +25,6 @@ export class User {
   @OneToMany(() => SolarSystem, (system) => system.user)
   systems: Relation<SolarSystem>[];
 
-  @ManyToMany(() => Group, (group) => group.members, { cascade: ['insert', 'update'] })
+  @ManyToMany(() => Group, (group) => group.members, { cascade: ['insert', 'update', 'remove'] })
   groups: Relation<Group>[];
 }

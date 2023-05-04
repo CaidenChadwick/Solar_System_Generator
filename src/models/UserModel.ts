@@ -37,11 +37,13 @@ async function getUserById(userId: string): Promise<User | null> {
       email: true,
       userId: true,
       verifiedEmail: true,
+      username: true,
       profileViews: true,
       groups: true,
       systems: true,
     },
     where: { userId },
+    relations: ['groups', 'systems'],
   });
   return user;
 }
@@ -88,11 +90,12 @@ async function incrementProfileViews(userData: User): Promise<User> {
 }
 
 async function updateEmailAddress(userId: string, newEmail: string, userData: User): Promise<User> {
+  console.log(`New email is: ${newEmail}`);
   await userRepository
     .createQueryBuilder()
     .update(User)
     .set({ email: newEmail })
-    .where({ userId })
+    .where('userId = :userId', { userId })
     .execute();
 
   const updatedUser = userData;

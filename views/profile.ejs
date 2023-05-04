@@ -2,16 +2,20 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome | Solar System Generator</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style.css" />
+  <title>Profile | Solar System Generator</title>
 </head>
 
 <body>
-  <h1>Profile Page</h1>
-  <h1>Welcome to Solar System Generator <%= email %>!!!</h1>
+  <h1>Welcome <%= user.username %> to Solar System Generator</h1>
 
+  <div><a href="/solarSystemCreation">Create Solar System</a></div>
+  <div><a href="/updateEmail">Update Email</a></div>
+  <!-- <div><a href="/users/<%= user.userId %>/password">Update Password</a></div> -->
+  <div><a href="/groups/:groupId">Groups You're In</a></div>
 </body>
 
 </html>

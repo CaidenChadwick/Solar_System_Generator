@@ -19,7 +19,7 @@ async function registerUser(req: Request, res: Response): Promise<void> {
   try {
     const newUser = await addUser(email, username, passwordHash);
     console.log(newUser);
-    res.redirect('/register');
+    res.redirect('/login');
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err as Error);
@@ -68,7 +68,7 @@ async function logIn(req: Request, res: Response): Promise<void> {
   };
   req.session.isLoggedIn = true;
 
-  res.redirect('/profile');
+  res.redirect(`/profile/${user.userId}`);
 }
 
 async function getAllUsers(req: Request, res: Response): Promise<void> {
@@ -87,14 +87,14 @@ async function getUserProfileData(req: Request, res: Response): Promise<void> {
   }
   // Now update their profile views
   user = await incrementProfileViews(user);
-  res.json(user); // Send back the user's data
+  // res.json(user); // Send back the user's data
+  res.render('profile', { user });
 }
 
 async function updateUserEmail(req: Request, res: Response): Promise<void> {
-  const { userId } = req.params as UserIdParam;
   const { isLoggedIn, authenticatedUser } = req.session;
 
-  if (!isLoggedIn || authenticatedUser.userId !== userId) {
+  if (!isLoggedIn) {
     res.sendStatus(403); // 403 Forbidden
     return;
   }
@@ -102,15 +102,16 @@ async function updateUserEmail(req: Request, res: Response): Promise<void> {
   const { email } = req.body as { email: string };
 
   // Get the user account
-  const user = await getUserById(userId);
+  const user = await getUserById(authenticatedUser.userId);
   if (!user) {
     res.sendStatus(404); // 404 Not Found
     return;
   }
 
   try {
-    const updatedUser = await updateEmailAddress(userId, email, user);
-    res.json(updatedUser);
+    await updateEmailAddress(authenticatedUser.userId, email, user);
+    // res.json(updatedUser);
+    res.redirect(`/profile/${user.userId}`);
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err);

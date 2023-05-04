@@ -1,5 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, Relation } from 'typeorm';
-import { Moon } from './Moon';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, Relation } from 'typeorm';
 import { SolarSystem } from './SolarSystem';
 
 @Entity()
@@ -7,10 +6,10 @@ export class Planet {
   @PrimaryGeneratedColumn('uuid')
   planetId: string;
 
-  @Column({ unique: true })
+  @Column()
   planetType: string;
 
-  @Column({ unique: true })
+  @Column()
   size: string;
 
   @Column({ default: false })
@@ -19,9 +18,9 @@ export class Planet {
   @Column({ default: false })
   rings: boolean;
 
+  @Column({ default: 1 })
+  moons: number;
+
   @ManyToOne(() => SolarSystem, (system) => system.planets)
   system: Relation<SolarSystem>;
-
-  @OneToMany(() => Moon, (moon) => moon.planet)
-  moons: Relation<Moon>[];
 }
