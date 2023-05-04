@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= system.name %> | Solar System Generator</title>
+</head>
+
+<body>
+    <h1><%= system.name %></h1>
+
+    <h2>Star Type</h2>
+    <div><%= system.starType %></div>
+
+    <h3>Planets</h3>
+    <ul>
+        <% for( const planet of system.planets ) { %>
+        <li>
+            <p><%= planet.planetType %>/5</p>
+            <p><%= planet.size %></p>
+            <p><%= planet.inhabitability %></p>
+            <p><%= planet.rings %></p>
+        </li>
+        <% } %>
+    </ul>
+</body>
+
+</html>

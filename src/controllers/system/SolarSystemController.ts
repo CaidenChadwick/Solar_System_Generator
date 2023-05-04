@@ -18,7 +18,7 @@ async function createSolarSystem(req: Request, res: Response): Promise<void> {
   try {
     const newSystem = await addSolarSystem(name, user);
     console.log(newSystem);
-    res.render('/systems');
+    res.redirect('/systems');
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err as Error);

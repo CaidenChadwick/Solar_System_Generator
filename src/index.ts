@@ -51,8 +51,6 @@ app.post('/api/users/:userId/email', updateUserEmail);
 
 app.post('/api/systems', createSolarSystem);
 // app.get('/api/solarsystem/:solarSystemId', getSolarSystem);
-// app.post('/api/solarsystem/:solarSystemId/planets', updatePlanet);
-// app.post('/api/planet/:planetID/moons', updateMoons);
 
 // app.get('api/groups/:groupId', getGroup);
 app.post('/api/groups/:groupId/systems/:systemId', addGroupSystem);
