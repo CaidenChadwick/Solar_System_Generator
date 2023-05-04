@@ -16,9 +16,6 @@ export class Planet {
   @Column({ default: false })
   inhabitability: boolean;
 
-  @Column({ default: 0 })
-  order: number;
-
   @Column({ default: false })
   rings: boolean;
 
