@@ -24,6 +24,7 @@ async function registerUser(req: Request, res: Response): Promise<void> {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err as Error);
     res.status(500).json(databaseErrorMessage);
+    // res.redirect('/register');
   }
 }
 
