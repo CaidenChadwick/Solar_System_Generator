@@ -12,7 +12,11 @@ import {
   updateUserEmail,
 } from './controllers/UserController';
 
-import { createSolarSystem, getSystem } from './controllers/system/SolarSystemController';
+import {
+  createSolarSystem,
+  getSystem,
+  getUserSystems,
+} from './controllers/system/SolarSystemController';
 
 import {
   addMember,
@@ -51,9 +55,9 @@ app.get('/profile/:userId', getUserProfileData);
 app.post('/api/users/email', updateUserEmail);
 
 app.post('/api/systems', createSolarSystem);
-app.get('/api/solarsystem/:solarSystemId', getSystem);
+app.get('/api/systems/:solarSystemId', getSystem);
+app.get('/systems', getUserSystems);
 // app.post('/api/solarsystem/:solarSystemId/planets', updatePlanet);
-// app.post('/api/planet/:planetID/moons', updateMoons);
 
 // app.get('api/groups/:groupId', getGroup);
 app.post('/api/groups/:groupId/systems/:systemId', addGroupSystem);
