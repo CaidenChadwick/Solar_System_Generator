@@ -13,14 +13,17 @@
   <div class="formCard">
     <section class="form-container">
       <div>
-        <h1 class="title gradient-text">Create Group</h1>
+        <h1 class="title gradient-text">Add a Member</h1>
       </div>
       <div class="form">
-        <form action="/api/groups/:groupId" method="post">
-          <label for="name">Group Name</label>
-          <input type="text" name="name" id="name" placeholder="Name" class="text" required />
+        <form action='/api/groups/:groupId/users/:username' method="post">
+          <div>
+            <h3 class="gradient-text">Member's Username</h3>
+          </div>
+          <label for="username">Username</label>
+          <input type="text" name="username" id="username" placeholder="Username" class="text" required />
 
-          <button class="btn">Create Group</button>
+          <button class="btn">Add Member</button>
         </form>
       </div>
     </section>

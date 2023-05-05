@@ -13,14 +13,23 @@
   <div class="formCard">
     <section class="form-container">
       <div>
-        <h1 class="title gradient-text">Create Group</h1>
+        <h1 class="title gradient-text">Add a System</h1>
       </div>
       <div class="form">
-        <form action="/api/groups/:groupId" method="post">
-          <label for="name">Group Name</label>
+        <form action='/api/groups/:groupId/systems/:systemId' method="post">
+          <div>
+            <h3 class="gradient-text">Solar System's name</h3>
+          </div>
+          <label for="name">Name</label>
           <input type="text" name="name" id="name" placeholder="Name" class="text" required />
 
-          <button class="btn">Create Group</button>
+          <div>
+            <h3 class="gradient-text">Group Name</h3>
+          </div>
+          <label for="name">Name</label>
+          <input type="text" name="name" id="name" placeholder="Name" class="text" required />
+
+          <button class="btn">Add Solar System</button>
         </form>
       </div>
     </section>

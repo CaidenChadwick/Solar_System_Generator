@@ -51,8 +51,8 @@
 }
 
 .gradient-text {
-  background-color: #8c1270;
-  background-image: linear-gradient(45deg, #8c1270, #d61e36);
+  background-color: #1a00ff;
+  background-image: linear-gradient(45deg, #1a00ff, #0098ff);
   background-size: 100%;
   background-repeat: repeat;
 
@@ -84,7 +84,7 @@
 }
 
 body.homepage {
-  color: rgb(253, 248, 250);
+  color: rgb(19, 17, 18);
   text-align: center;
 }
 
@@ -102,7 +102,7 @@ body {
 }
 
 .form-container {
-  color: white;
+  color: rgb(19, 15, 15);
   background: #02384e31;
   backdrop-filter: blur(0.5rem);
   margin: auto;
@@ -131,7 +131,7 @@ input {
   background: none;
   box-shadow: 0px 2px 0px 0px white;
   width: 100%;
-  color: white;
+  color: rgb(14, 11, 11);
   font-size: 1.25em;
   outline: none;
 }
@@ -142,7 +142,7 @@ form input {
 }
 
 input::placeholder {
-  color: #d3d3d3;
+  color: #0f0d0d;
 }
 
 label {
