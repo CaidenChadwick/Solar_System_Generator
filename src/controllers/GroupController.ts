@@ -15,6 +15,20 @@ import {
 import { getUserById, getUserByUsername } from '../models/UserModel';
 import { getSystemById } from '../models/system/SolarSystemModel';
 
+async function getGroup(req: Request, res: Response): Promise<void> {
+  const { groupId } = req.params as GroupIdParams;
+
+  const group = await getGroupById(groupId);
+  console.log(group);
+
+  if (!group) {
+    res.render('profile');
+    return;
+  }
+
+  res.render('group', { group });
+}
+
 async function createGroup(req: Request, res: Response): Promise<void> {
   // check that user is signed in
   if (!req.session.isLoggedIn) {
@@ -26,10 +40,15 @@ async function createGroup(req: Request, res: Response): Promise<void> {
   const user = await getUserById(userId);
   const { name } = req.body as NewGroupRequest;
 
+  if (!user) {
+    res.sendStatus(404);
+    return;
+  }
+
   try {
     const group = await addGroup(name, user);
     console.log(group);
-    res.render('group', { group });
+    res.redirect('/groups');
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err as Error);
@@ -215,9 +234,18 @@ async function getUserGroups(req: Request, res: Response): Promise<void> {
   }
 
   const { userId } = req.session.authenticatedUser;
-  const { groups } = await getUserById(userId);
+  const { groups, ownedGroups } = await getUserById(userId);
 
-  res.render('groupList', { groups });
+  console.log('HIHIHI');
+  res.render('groups', { groups, ownedGroups });
 }
 
-export { createGroup, addMember, removeMember, addGroupSystem, removeGroupSystem, getUserGroups };
+export {
+  getGroup,
+  createGroup,
+  addMember,
+  removeMember,
+  addGroupSystem,
+  removeGroupSystem,
+  getUserGroups,
+};

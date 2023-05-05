@@ -69,6 +69,8 @@ async function logIn(req: Request, res: Response): Promise<void> {
   };
   req.session.isLoggedIn = true;
 
+  console.log(user);
+
   res.redirect(`/profile/${user.userId}`);
 }
 

@@ -43,7 +43,7 @@ async function getUserById(userId: string): Promise<User | null> {
       systems: true,
     },
     where: { userId },
-    relations: ['groups', 'systems'],
+    relations: ['groups', 'systems', 'ownedGroups'],
   });
   return user;
 }

@@ -44,6 +44,7 @@ async function getGroupById(groupId: string): Promise<Group | null> {
     .createQueryBuilder('group')
     .leftJoinAndSelect('group.members', 'members')
     .leftJoinAndSelect('group.systems', 'systems')
+    .leftJoinAndSelect('group.owner', 'owner')
     .where('groupId = :groupId', { groupId })
     .getOne();
 }

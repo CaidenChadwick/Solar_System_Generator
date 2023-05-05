@@ -28,7 +28,7 @@
         <% for( const user of group.members ) { %>
           <li>
             <p>
-              <%= user.email %>/5
+              <%= group.owner.email %>/5
             </p>
           </li>
           <% } %>
@@ -46,6 +46,8 @@
           <% } %>
             <% } %>
   </ul>
+
+  <a href="/addMember">Add Member</a>
 
 </body>
 

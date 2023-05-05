@@ -24,6 +24,11 @@ async function createSolarSystem(req: Request, res: Response): Promise<void> {
   const { userId } = req.session.authenticatedUser;
   const user = await getUserById(userId);
 
+  if (!user) {
+    res.sendStatus(404);
+    return;
+  }
+
   try {
     const newSystem = await addSolarSystem(name, user, planets, starType);
     console.log(newSystem);

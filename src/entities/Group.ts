@@ -3,8 +3,8 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToMany,
-  ManyToOne,
   OneToMany,
+  ManyToOne,
   Relation,
   JoinTable,
 } from 'typeorm';
@@ -19,7 +19,7 @@ export class Group {
   @Column({ unique: true })
   name: string;
 
-  @ManyToOne(() => User, (owner) => owner.groups, { cascade: ['insert', 'update'] })
+  @ManyToOne(() => User, (owner) => owner.ownedGroups, { cascade: ['insert', 'update'] })
   owner: Relation<User>;
 
   @ManyToMany(() => User, (user) => user.groups, { cascade: ['insert', 'update'] })
