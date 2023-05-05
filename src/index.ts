@@ -20,6 +20,7 @@ import {
 
 import {
   addMember,
+  goAddMember,
   removeMember,
   addGroupSystem,
   removeGroupSystem,
@@ -67,6 +68,7 @@ app.post('/api/groups/:groupId', createGroup);
 app.get('/api/groups/:groupId', getGroup);
 app.post('/api/groups/:groupId/systems/:systemId', addGroupSystem);
 app.post('/api/groups/:groupId/users/:username', addMember);
+app.get('/addMember/:groupId', goAddMember);
 
 app.delete('/api/groups/:groupId/:systemId', removeGroupSystem);
 app.delete('/api/groups/:groupId/:userId', removeMember);

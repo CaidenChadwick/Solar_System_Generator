@@ -22,11 +22,10 @@ async function getGroup(req: Request, res: Response): Promise<void> {
   console.log(group);
 
   if (!group) {
-    res.render('profile');
     return;
   }
 
-  res.render('group', { group });
+  res.render('group', { group, groupId });
 }
 
 async function createGroup(req: Request, res: Response): Promise<void> {
@@ -61,40 +60,48 @@ async function addMember(req: Request, res: Response): Promise<void> {
     res.redirect('/login');
     return;
   }
+  const { userId } = req.session.authenticatedUser;
 
-  const { username, groupId } = req.body as GroupUserRequest;
+  const { username } = req.body as GroupUserRequest;
   const targetUser = await getUserByUsername(username);
-  const group = await getGroupById(groupId);
+
+  const { groupId } = req.params as GroupIdParams;
+  let group = await getGroupById(groupId);
+
+  if (!group) {
+    res.redirect(`/profile/${userId}`);
+    return;
+  }
 
   // check that user exists and is signed in
   if (!targetUser) {
-    res.render('group', { group });
+    res.render('group', { group, groupId });
     return;
   }
 
-  // check that group exists
-
-  if (!group) {
-    res.render('profile');
-    return;
-  }
-
-  if (!isUserOfGroup(groupId, targetUser.userId)) {
-    res.render('group', { group });
+  if (isUserOfGroup(groupId, targetUser.userId)) {
+    res.render('group', { group, groupId });
     return;
   }
 
   // check join condition(password / invite)
 
   try {
-    const updatedGroup = await addUserToGroup(targetUser, group);
-    console.log(updatedGroup);
-    res.render('group', { updatedGroup });
+    await addUserToGroup(targetUser, group);
+    group = await getGroupById(groupId);
+    console.log(group);
+    res.render('group', { group, groupId });
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err as Error);
     res.status(500).json(databaseErrorMessage);
   }
+}
+
+async function goAddMember(req: Request, res: Response): Promise<void> {
+  const { groupId } = req.params as GroupIdParams;
+
+  res.render('addMember', { groupId });
 }
 
 async function removeMember(req: Request, res: Response): Promise<void> {
@@ -112,7 +119,7 @@ async function removeMember(req: Request, res: Response): Promise<void> {
   }
 
   const targetMember = await getUserById(targetUserId);
-  const group = await getGroupById(groupId);
+  let group = await getGroupById(groupId);
 
   if (!group) {
     res.render('profile');
@@ -129,9 +136,9 @@ async function removeMember(req: Request, res: Response): Promise<void> {
   }
 
   try {
-    const updatedGroup = await deleteUserFromGroup(targetMember, group);
-    console.log(updatedGroup);
-    res.render('group', { updatedGroup });
+    group = await deleteUserFromGroup(targetMember, group);
+    console.log(group);
+    res.render('group', { group });
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err as Error);
@@ -244,6 +251,7 @@ export {
   getGroup,
   createGroup,
   addMember,
+  goAddMember,
   removeMember,
   addGroupSystem,
   removeGroupSystem,

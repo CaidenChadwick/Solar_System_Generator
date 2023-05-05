@@ -58,9 +58,10 @@ async function getUserByUsername(username: string): Promise<User | null> {
       profileViews: true,
       groups: true,
       systems: true,
+      ownedGroups: true,
     },
     where: { username },
-    relations: ['groups', 'systems'],
+    relations: ['groups', 'systems', 'ownedGroups'],
   });
   return user;
 }

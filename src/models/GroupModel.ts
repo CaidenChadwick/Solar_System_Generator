@@ -42,6 +42,7 @@ async function deleteUserFromGroup(user: User, group: Group): Promise<Group> {
 async function getGroupById(groupId: string): Promise<Group | null> {
   return groupRepository
     .createQueryBuilder('group')
+    .select('group.name')
     .leftJoinAndSelect('group.members', 'members')
     .leftJoinAndSelect('group.systems', 'systems')
     .leftJoinAndSelect('group.owner', 'owner')
