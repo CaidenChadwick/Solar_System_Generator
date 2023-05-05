@@ -11,41 +11,46 @@
 </head>
 
 <body>
-  <h1>
-    <%= group.name %>
-  </h1>
+  <div class="formCard">
+    <section class="form-container">
+      <h1 class="gradient-text"><%= group.name %></h1>
 
-  <h2>Owner</h2>
-  <div>
-    <%= group.owner.username %>
+      <h2 class="gradient-text">Owner</h2>
+      <div>
+        <h3><%= group.owner.username %></h3>
+      </div>
+
+      <h2 class="gradient-text">Members</h2>
+      <ul>
+        <% if (group.members.length==0) { %>
+          <h5>No Members</h5>
+          <% } else { %>
+            <% for( const user of group.members ) { %>
+              <li>
+                <p>
+                  <%= user.email %>/5
+                </p>
+              </li>
+            <% } %>
+          <% } %>
+      </ul>
+
+      <h2 class="gradient-text">Systems</h2>
+      <ul>
+        <% if (group.systems.length==0) { %>
+          <h5>No Systems</h5>
+          <% } else { %>
+            <% for( const system of group.systems ) { %>
+              <a href="/systems/<%= system.systemId %>">
+              </a>
+            <% } %>
+          <% } %>
+      </ul>
+      <div><a href="/addMember">Add a Member</a></div>
+      <div><a href="/addSystem">Add a System</a></div>
+    </section>
   </div>
 
-  <h3>Members</h3>
-  <ul>
-    <% if (group.members.length==0) { %>
-      <h5>No Members</h5>
-      <% } else { %>
-        <% for( const user of group.members ) { %>
-          <li>
-            <p>
-              <%= user.email %>/5
-            </p>
-          </li>
-          <% } %>
-            <% } %>
-  </ul>
-
-  <h4>Systems</h4>
-  <ul>
-    <% if (group.systems.length==0) { %>
-      <h5>No Systems</h5>
-      <% } else { %>
-        <% for( const system of group.systems ) { %>
-          <a href="/systems/<%= system.systemId %>">
-          </a>
-          <% } %>
-            <% } %>
-  </ul>
 
 </body>
 

@@ -156,7 +156,7 @@ async function addGroupSystem(req: Request, res: Response): Promise<void> {
   try {
     const addedSystem = await addSystemToGroup(targetSystem, group);
     console.log(addedSystem);
-    res.sendStatus(200);
+    res.render('group', { addedSystem });
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err as Error);
