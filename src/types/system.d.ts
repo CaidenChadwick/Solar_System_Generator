@@ -7,5 +7,9 @@ type SystemParams = {
 type NewSystemRequest = {
   name: string;
   starType: string;
-  planets: Planet[];
+  planetType: string[];
+  inhabitability: boolean[];
+  rings: boolean[];
+  size: string[];
+  moons: number[];
 };

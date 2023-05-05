@@ -12,7 +12,7 @@ import {
   isOwner,
   isSystemOfGroup,
 } from '../models/GroupModel';
-import { getUserById } from '../models/UserModel';
+import { getUserById, getUserByUsername } from '../models/UserModel';
 import { getSystemById } from '../models/system/SolarSystemModel';
 
 async function createGroup(req: Request, res: Response): Promise<void> {
@@ -42,8 +42,8 @@ async function addMember(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  const { targetUserId, groupId } = req.body as GroupUserRequest;
-  const targetUser = await getUserById(targetUserId);
+  const { username, groupId } = req.body as GroupUserRequest;
+  const targetUser = await getUserByUsername(username);
   const group = await getGroupById(groupId);
 
   // check that user exists and is signed in
@@ -59,7 +59,7 @@ async function addMember(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  if (isUserOfGroup(groupId, targetUserId)) {
+  if (isUserOfGroup(groupId, targetUser.userId)) {
     res.sendStatus(409);
     return;
   }

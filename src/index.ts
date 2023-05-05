@@ -55,13 +55,13 @@ app.get('/profile/:userId', getUserProfileData);
 app.post('/api/users/email', updateUserEmail);
 
 app.post('/api/systems', createSolarSystem);
-app.get('/api/systems/:solarSystemId', getSystem);
+app.get('/api/systems/:systemId', getSystem);
 app.get('/systems', getUserSystems);
 // app.post('/api/solarsystem/:solarSystemId/planets', updatePlanet);
 
 // app.get('api/groups/:groupId', getGroup);
 app.post('/api/groups/:groupId/systems/:systemId', addGroupSystem);
-app.post('/api/groups/:groupId/users/:userId', addMember);
+app.post('/api/groups/:groupId/users/:username', addMember);
 
 app.delete('/api/groups/:groupId/:systemId', removeGroupSystem);
 app.delete('/api/groups/:groupId/:userId', removeMember);

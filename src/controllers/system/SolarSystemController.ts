@@ -3,13 +3,22 @@ import { parseDatabaseError } from '../../utils/db-utils';
 
 import { addSolarSystem, getSystemById } from '../../models/system/SolarSystemModel';
 import { getUserById } from '../../models/UserModel';
+import { addPlanet } from '../../models/system/PlanetModel';
+import { Planet } from '../../entities/Planet';
 
 async function createSolarSystem(req: Request, res: Response): Promise<void> {
-  const { name, planets, starType } = req.body as NewSystemRequest;
+  const { name, starType, planetType, inhabitability, rings, size, moons } =
+    req.body as NewSystemRequest;
 
   if (!req.session.isLoggedIn) {
     res.redirect('/login');
     return;
+  }
+
+  const planets: Planet[] = [];
+  for (let i = 0; i < planetType.length; i += 1) {
+    const planet = await addPlanet(planetType[i], inhabitability[i], rings[i], size[i], moons[i]);
+    planets.push(planet);
   }
 
   const { userId } = req.session.authenticatedUser;
@@ -31,6 +40,7 @@ async function getSystem(req: Request, res: Response): Promise<void> {
   const { systemId } = req.params as SystemParams;
 
   const system = await getSystemById(systemId);
+  console.log(system);
 
   if (!system) {
     res.sendStatus(404);
@@ -41,6 +51,10 @@ async function getSystem(req: Request, res: Response): Promise<void> {
 }
 
 async function getUserSystems(req: Request, res: Response): Promise<void> {
+  if (!req.session.isLoggedIn) {
+    res.sendStatus(403);
+    return;
+  }
   const { userId } = req.session.authenticatedUser;
   const { systems } = await getUserById(userId);
 

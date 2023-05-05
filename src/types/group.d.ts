@@ -13,5 +13,6 @@ type GroupSystemRequest = {
 
 type GroupUserRequest = {
   groupId: string;
+  username: string;
   targetUserId: string;
 };
