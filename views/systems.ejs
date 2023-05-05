@@ -21,8 +21,10 @@
 
         <ul>
           <% for( const system of systems ) { %>
-            <a href="/api/systems/<%= system.systemId %>">link
-            </a>
+            <div>
+              <a href="/api/systems/<%= system.systemId %>"><%= system.name %>
+              </a>
+            </div>
             <% } %>
         </ul>
 </body>

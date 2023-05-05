@@ -43,7 +43,7 @@ async function getSystem(req: Request, res: Response): Promise<void> {
   console.log(system);
 
   if (!system) {
-    res.sendStatus(404);
+    res.render('profile');
     return;
   }
 
