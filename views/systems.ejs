@@ -5,16 +5,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="/css/style.css" />
   <title>Solar Systems | Solar Systems Generator</title>
 </head>
 
 <body>
-  <h1>Solar Systems</h1>
+  <div class="formCard">
+    <section class="form-container">
+      <h1 class="gradient-text">Solar Systems</h1>
 
   <% if (systems.length===1) { %>
-    <h2>There is <%= systems.length %> solar system.</h2>
+    <h2 class="gradient-text">There is <%= systems.length %> solar system.</h2>
     <% } else { %>
-      <h2>There are <%= systems.length %> solar systems.</h2>
+      <h2 class="gradient-text">There are <%= systems.length %> solar systems.</h2>
       <% } %>
 
         <a href="/solarSystemCreation">Create a Solar System</a>
@@ -27,6 +30,8 @@
             </div>
             <% } %>
         </ul>
+    </section>
+  </div>
 </body>
 
 </html>
