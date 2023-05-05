@@ -3,7 +3,7 @@ import { SolarSystem } from '../../entities/SolarSystem';
 import { User } from '../../entities/User';
 import { Planet } from '../../entities/Planet';
 
-const solarSystemRepository = await AppDataSource.getRepository(SolarSystem);
+const solarSystemRepository = AppDataSource.getRepository(SolarSystem);
 
 async function addSolarSystem(
   name: string,
@@ -22,9 +22,16 @@ async function addSolarSystem(
 
 async function getSystemById(systemId: string): Promise<SolarSystem | null> {
   const system = await solarSystemRepository.findOne({
-    select: {},
+    select: {
+      name: true,
+      starType: true,
+      planets: true,
+      systemId: true,
+    },
     where: { systemId },
+    relations: ['planets'],
   });
+
   return system;
 }
 

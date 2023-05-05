@@ -48,6 +48,23 @@ async function getUserById(userId: string): Promise<User | null> {
   return user;
 }
 
+async function getUserByUsername(username: string): Promise<User | null> {
+  const user = await userRepository.findOne({
+    select: {
+      email: true,
+      userId: true,
+      verifiedEmail: true,
+      username: true,
+      profileViews: true,
+      groups: true,
+      systems: true,
+    },
+    where: { username },
+    relations: ['groups', 'systems'],
+  });
+  return user;
+}
+
 async function getViralUsers(): Promise<User[]> {
   const viralUsers = await userRepository
     .createQueryBuilder('user')
@@ -109,6 +126,7 @@ export {
   getAllUnverifiedUsers,
   getUserByEmail,
   getUserById,
+  getUserByUsername,
   getViralUsers,
   getUserByViews,
   incrementProfileViews,

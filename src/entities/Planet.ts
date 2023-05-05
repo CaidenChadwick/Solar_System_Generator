@@ -10,7 +10,7 @@ export class Planet {
   planetType: string;
 
   @Column()
-  size: string;
+  size: number;
 
   @Column({ default: false })
   inhabitability: boolean;
