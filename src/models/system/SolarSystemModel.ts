@@ -35,4 +35,19 @@ async function getSystemById(systemId: string): Promise<SolarSystem | null> {
   return system;
 }
 
-export { addSolarSystem, getSystemById };
+async function getSystemByName(name: string): Promise<SolarSystem | null> {
+  const system = await solarSystemRepository.findOne({
+    select: {
+      name: true,
+      starType: true,
+      planets: true,
+      systemId: true,
+    },
+    where: { name },
+    relations: ['planets'],
+  });
+
+  return system;
+}
+
+export { addSolarSystem, getSystemById, getSystemByName };

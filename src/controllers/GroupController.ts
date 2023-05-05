@@ -13,7 +13,7 @@ import {
   isSystemOfGroup,
 } from '../models/GroupModel';
 import { getUserById, getUserByUsername } from '../models/UserModel';
-import { getSystemById } from '../models/system/SolarSystemModel';
+import { getSystemById, getSystemByName } from '../models/system/SolarSystemModel';
 
 async function getGroup(req: Request, res: Response): Promise<void> {
   const { groupId } = req.params as GroupIdParams;
@@ -110,6 +110,12 @@ async function goAddMember(req: Request, res: Response): Promise<void> {
   res.render('addMember', { groupId });
 }
 
+async function goAddSystem(req: Request, res: Response): Promise<void> {
+  const { groupId } = req.params as GroupIdParams;
+
+  res.render('addSystem', { groupId });
+}
+
 async function removeMember(req: Request, res: Response): Promise<void> {
   if (!req.session.isLoggedIn) {
     res.redirect('/login');
@@ -158,37 +164,43 @@ async function addGroupSystem(req: Request, res: Response): Promise<void> {
     res.redirect('/login');
     return;
   }
+  const { userId } = req.session.authenticatedUser;
+  const { username } = req.params as GroupUserRequest;
+
+  const { name } = req.body as GroupSystemRequest;
+  const targetSystem = await getSystemByName(name);
 
   // check group exists
   const { groupId } = req.params as GroupSystemRequest;
-  const { targetSystemId } = req.body as GroupSystemRequest;
-  const group = await getGroupById(groupId);
-  const targetSystem = await getSystemById(targetSystemId);
-  if (!group || !targetSystem) {
-    res.render('profile');
+  let group = await getGroupById(groupId);
+
+  if (!group) {
+    res.redirect(`/profile/${userId}`);
     return;
   }
 
-  // check user adding is in group
-  const { userId } = req.session.authenticatedUser;
+  if (!targetSystem) {
+    res.send(`Could not find system: ${name}`);
+  }
 
+  // check user adding is in group
   if (!isUserOfGroup(groupId, userId)) {
-    res.render('profile');
+    res.send(`User already in group: ${username}`);
     return;
   }
 
   // Check system owned by user
 
   // check system is not in group
-  if (!isSystemOfGroup(groupId, targetSystemId)) {
-    res.render('group', { group });
+  if (!isSystemOfGroup(groupId, targetSystem.systemId)) {
+    res.send(`System already in group: ${name}`);
     return;
   }
 
   try {
-    const addedSystem = await addSystemToGroup(targetSystem, group);
-    console.log(addedSystem);
-    res.render('group', { addedSystem });
+    await addSystemToGroup(targetSystem, group);
+    group = await getGroupById(groupId);
+    res.redirect(`/api/groups/${groupId}`);
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err as Error);
@@ -258,6 +270,7 @@ export {
   createGroup,
   addMember,
   goAddMember,
+  goAddSystem,
   removeMember,
   addGroupSystem,
   removeGroupSystem,

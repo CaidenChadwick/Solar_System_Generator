@@ -9,6 +9,7 @@ type GroupIdParams = {
 type GroupSystemRequest = {
   groupId: string;
   targetSystemId: string;
+  name: string;
 };
 
 type GroupUserRequest = {

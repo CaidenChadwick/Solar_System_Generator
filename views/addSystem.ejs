@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/style.css" />
-  <title>Create Group | Solar System Generator</title>
+  <title>Add System | Solar System Generator</title>
 </head>
 
 <body>
@@ -16,15 +16,9 @@
         <h1 class="title gradient-text">Add a System</h1>
       </div>
       <div class="form">
-        <form action='/api/groups/:groupId/systems/:systemId' method="post">
+        <form action='/api/groups/<%= groupId %>/systems' method="post">
           <div>
             <h3 class="gradient-text">Solar System's name</h3>
-          </div>
-          <label for="name">Name</label>
-          <input type="text" name="name" id="name" placeholder="Name" class="text" required />
-
-          <div>
-            <h3 class="gradient-text">Group Name</h3>
           </div>
           <label for="name">Name</label>
           <input type="text" name="name" id="name" placeholder="Name" class="text" required />

@@ -27,6 +27,7 @@ import {
   getUserGroups,
   createGroup,
   getGroup,
+  goAddSystem,
 } from './controllers/GroupController';
 
 const app: Express = express();
@@ -67,6 +68,7 @@ app.post('/api/groups/:groupId', createGroup);
 
 app.get('/api/groups/:groupId', getGroup);
 app.post('/api/groups/:groupId/systems', addGroupSystem);
+app.get('/addSystem/:groupId', goAddSystem);
 app.post('/api/groups/:groupId/users', addMember);
 app.get('/addMember/:groupId', goAddMember);
 
