@@ -9,6 +9,8 @@ async function addGroup(name: string, creator: User): Promise<Group> {
   let newGroup = new Group();
   newGroup.name = name;
   newGroup.owner = creator;
+  newGroup.members = [];
+  newGroup.systems = [];
   newGroup = await groupRepository.save(newGroup);
   return newGroup;
 }

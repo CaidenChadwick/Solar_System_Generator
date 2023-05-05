@@ -27,9 +27,9 @@ async function createGroup(req: Request, res: Response): Promise<void> {
   const { name } = req.body as NewGroupRequest;
 
   try {
-    const newGroup = await addGroup(name, user);
-    console.log(newGroup);
-    res.render('group', { newGroup });
+    const group = await addGroup(name, user);
+    console.log(group);
+    res.render('group', { group });
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err as Error);

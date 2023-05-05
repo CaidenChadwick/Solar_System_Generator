@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
   <link rel="stylesheet" href="/css/style.css" />
   <title>Create Group | Solar System Generator</title>
 </head>
+
 <body>
   <div class="formCard">
     <section class="form-container">
@@ -15,30 +17,14 @@
       </div>
       <div class="form">
         <form action="/api/groups/:groupId" method="post">
-          <label for="username">Username</label>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            placeholder="Username"
-            class="text"
-            required
-        />
+          <label for="name">Group Name</label>
+          <input type="text" name="name" id="name" placeholder="Name" class="text" required />
 
-        <label for="owner">Owner</label>
-        <input
-          type="text"
-          name="owner"
-          id="owner"
-          placeholder="Owner"
-          class="text"
-          required
-        />
-
-        <button class="btn">Create Group</button>
+          <button class="btn">Create Group</button>
         </form>
       </div>
     </section>
   </div>
 </body>
+
 </html>
