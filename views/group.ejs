@@ -29,10 +29,10 @@
         <% if (group.members.length==0) { %>
           <h5>No Members</h5>
           <% } else { %>
-            <% for( const user of group.members ) { %>
+            <% for( const member of group.members ) { %>
               <li>
                 <p>
-                  <%= group.owner.email %>/5
+                  <%= member.username %>
                 </p>
               </li>
               <% } %>

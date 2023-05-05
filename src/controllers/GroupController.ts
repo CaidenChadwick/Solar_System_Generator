@@ -63,6 +63,7 @@ async function addMember(req: Request, res: Response): Promise<void> {
   const { userId } = req.session.authenticatedUser;
 
   const { username } = req.body as GroupUserRequest;
+  console.log(username);
   const targetUser = await getUserByUsername(username);
 
   const { groupId } = req.params as GroupIdParams;
@@ -75,12 +76,16 @@ async function addMember(req: Request, res: Response): Promise<void> {
 
   // check that user exists and is signed in
   if (!targetUser) {
-    res.render('group', { group, groupId });
+    // res.render('group', { group, groupId });
+    res.send(`Could not find user: ${username}`);
     return;
   }
+  console.log('\n\ntargetUser:');
+  console.log(targetUser);
+  console.log('\n\n');
 
-  if (isUserOfGroup(groupId, targetUser.userId)) {
-    res.render('group', { group, groupId });
+  if (!isUserOfGroup(groupId, targetUser.userId)) {
+    res.send(`User already in group: ${username}`);
     return;
   }
 
@@ -89,8 +94,9 @@ async function addMember(req: Request, res: Response): Promise<void> {
   try {
     await addUserToGroup(targetUser, group);
     group = await getGroupById(groupId);
+    console.log('\n\nGroup:');
     console.log(group);
-    res.render('group', { group, groupId });
+    res.redirect(`/api/groups/${groupId}`);
   } catch (err) {
     console.error(err);
     const databaseErrorMessage = parseDatabaseError(err as Error);
