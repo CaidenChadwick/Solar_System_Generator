@@ -32,8 +32,10 @@
     </ul>
 
     <div>
-      <a href="/groups/<%= group.groupId %>/users/<%= user.userId %>">Add a Member</a>
-      <a href="/groups/<%= group.groupId %>/<%= user.userId %>">Remove a Member</a>
+      <a href="/groups/<%= group.groupId %>/users/<%= user.username %>">Add a Member</a>
+    </div>
+    <div>
+      <a href="/groups/<%= group.groupId %>/systems/<%= system.systemId %>">Add System to Group</a>
     </div>
 </body>
 

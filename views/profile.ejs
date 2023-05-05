@@ -10,14 +10,18 @@
 </head>
 
 <body>
-  <h1>Welcome <%= user.username %> to Solar System Generator</h1>
+  <div class="formCard">
+    <section class="form-container">
+      <h1 class="gradient-text">Welcome <%= user.username %> to Solar System Generator</h1>
 
-  <div><a href="/solarSystemCreation">Create Solar System</a></div>
-  <div><a href="/updateEmail">Update Email</a></div>
-  <!-- <div><a href="/users/<%= user.userId %>/password">Update Password</a></div> -->
-  <div><a href="/systems">Your Solar Systems</a></div>
-  <div><a href="/groups">Groups You're In</a></div>
-  <div><a href="</div>
+      <div><a href="/solarSystemCreation">Create Solar System</a></div>
+      <div><a href="/updateEmail">Update Email</a></div>
+      <!-- <div><a href="/users/<%= user.userId %>/password">Update Password</a></div> -->
+      <div><a href="/systems">Your Solar Systems</a></div>
+      <div><a href="/groups">Groups You're In</a></div>
+      <div><a href="/groups/:groupId">Create Group</a></div>
+    </section>
+  </div>
 </body>
 
 </html>
