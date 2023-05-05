@@ -2,41 +2,51 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><%= group.name %> | Solar System Generator</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>
+    <%= group.name %> | Solar System Generator
+  </title>
 </head>
 
 <body>
-    <h1><%= group.name %></h1>
+  <h1>
+    <%= group.name %>
+  </h1>
 
-    <h2>Owner</h2>
-    <div><%= group.owner %></div>
+  <h2>Owner</h2>
+  <div>
+    <%= group.owner.username %>
+  </div>
 
-    <h3>Members</h3>
-    <ul>
+  <h3>Members</h3>
+  <ul>
+    <% if (group.members.length==0) { %>
+      <h5>No Members</h5>
+      <% } else { %>
         <% for( const user of group.members ) { %>
-        <li>
-            <p><%= user.email %>/5</p>
-        </li>
-        <% } %>
-    </ul>
+          <li>
+            <p>
+              <%= user.email %>/5
+            </p>
+          </li>
+          <% } %>
+            <% } %>
+  </ul>
 
-    <h4>Systems</h4>
-    <ul>
+  <h4>Systems</h4>
+  <ul>
+    <% if (group.systems.length==0) { %>
+      <h5>No Systems</h5>
+      <% } else { %>
         <% for( const system of group.systems ) { %>
-        <a href="/systems/<%= system.systemId %>">
-        </a>
-        <% } %>
-    </ul>
+          <a href="/systems/<%= system.systemId %>">
+          </a>
+          <% } %>
+            <% } %>
+  </ul>
 
-    <div>
-      <a href="/groups/<%= group.groupId %>/users/<%= user.username %>">Add a Member</a>
-    </div>
-    <div>
-      <a href="/groups/<%= group.groupId %>/systems/<%= system.systemId %>">Add System to Group</a>
-    </div>
 </body>
 
 </html>
