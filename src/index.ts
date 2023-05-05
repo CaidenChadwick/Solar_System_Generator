@@ -66,8 +66,8 @@ app.post('/api/groups/:groupId', createGroup);
 // app.post('/api/solarsystem/:solarSystemId/planets', updatePlanet);
 
 app.get('/api/groups/:groupId', getGroup);
-app.post('/api/groups/:groupId/systems/:systemId', addGroupSystem);
-app.post('/api/groups/:groupId/users/:username', addMember);
+app.post('/api/groups/:groupId/systems', addGroupSystem);
+app.post('/api/groups/:groupId/users', addMember);
 app.get('/addMember/:groupId', goAddMember);
 
 app.delete('/api/groups/:groupId/:systemId', removeGroupSystem);
